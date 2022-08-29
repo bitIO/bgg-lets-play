@@ -5,8 +5,9 @@ import {
   getBggUser,
 } from 'bgg-xml-api-client';
 
-import { BggPlays, BggUser } from '../types/BGG';
+import { BggPlays, BggShelve, BggUser } from '../types/BGG';
 import {
+  BggApiResponseDataCollection,
   BggApiResponseDataUserPlays,
   BggApiResponseDataUserPlaysItem,
 } from '../types/bgg.api';
@@ -85,3 +86,46 @@ async function getUserPlays(userName: string): Promise<BggPlays> {
   return data;
 }
 
+async function getUserShelve(
+  username: string,
+  owned: boolean,
+  excludeExpansions: boolean,
+): Promise<BggShelve> {
+  const params: BggCollectionParams = {
+    subtype: 'boardgame',
+    username,
+  };
+  if (excludeExpansions) {
+    params.excludesubtype = 'boardgameexpansion';
+  }
+
+  if (owned) {
+    params.own = 1;
+  } else {
+    params.own = 0;
+  }
+
+  const response = await getBggCollection(params);
+  const data = response.data as BggApiResponseDataCollection;
+  const shelve: BggShelve = {
+    games: data.item.map((item) => {
+      return {
+        id: parseInt(item.objectid, 10),
+        images: {
+          image: item.image,
+          thumbnail: item.thumbnail,
+        },
+        name: item.name.text,
+        plays: item.numplays,
+        publishedYear: item.yearpublished,
+        rating: -1,
+      };
+    }),
+    publicationDate: new Date(data.pubdate),
+    totalItems: parseInt(data.totalitems, 10),
+  };
+
+  return shelve;
+}
+
+export { getUserShelve, getUser, getUserPlays };
