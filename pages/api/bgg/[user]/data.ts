@@ -2,12 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { BggUser } from '../../../../types/bgg';
-import {
-  getUser,
-  getUserPlays,
-  getUserShelve,
-} from '../../../../utils/bgg-api';
-import { loadFromFile, saveToFile } from '../../../../utils/file';
+import { loadUserData } from '../../../../utils/user';
 
 export default async (req: NextApiRequest, res: NextApiResponse<BggUser>) => {
   const { user } = req.query;
@@ -17,20 +12,6 @@ export default async (req: NextApiRequest, res: NextApiResponse<BggUser>) => {
   if (Array.isArray(user)) {
     return res.status(StatusCodes.BAD_REQUEST);
   }
-
-  const userName = user as string;
-  const userDataPath = `./data/${userName}.json`;
-
-  const cachedData = loadFromFile(userDataPath, true);
-  if (cachedData) {
-    return res.status(StatusCodes.OK).json(cachedData);
-  }
-
-  const userData = await getUser(userName as string);
-  const userPlays = await getUserPlays(userName as string);
-  const uerCollection = await getUserShelve(userName as string, true, true);
-  userData.plays = userPlays;
-  userData.collection = uerCollection;
-  saveToFile(userDataPath, userData, true);
+  const userData = await loadUserData(user as string);
   return res.status(StatusCodes.OK).json(userData);
 };
