@@ -9,7 +9,7 @@ async function saveUserData(userName: string, userData: BggUser) {
   saveToFile(userDataPath, userData, true);
 }
 
-async function loadUserData(userName: string) {
+async function loadUserData(userName: string): Promise<BggUser> {
   const userDataPath = `./data/${userName}.json`;
 
   const cachedData = loadFromFile(userDataPath, true);
