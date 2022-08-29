@@ -1,0 +1,38 @@
+{
+  "ignorePaths": [
+    "node_modules"
+  ],
+  "words": [
+    "Autosize",
+    "calle",
+    "camelcase",
+    "commitlint",
+    "dropzone",
+    "embla",
+    "fcalle",
+    "fcallem",
+    "francisco",
+    "Greycliff",
+    "imagemin",
+    "incollection",
+    "linebreak",
+    "mantine",
+    "markdownlint",
+    "modulz",
+    "moreno",
+    "multilines",
+    "nextjs",
+    "nprogress",
+    "oatuh",
+    "parens",
+    "pnpm",
+    "postcss",
+    "raindrop",
+    "stylelint",
+    "swr",
+    "tabler",
+    "tsbuildinfo",
+    "typecheck",
+    "vercel"
+  ]
+}
