@@ -9,7 +9,13 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'prettier',
   ],
-  plugins: ['sort-keys-fix', 'typescript-sort-keys', 'testing-library', 'jest'],
+  plugins: [
+    'sort-keys-fix',
+    'typescript-sort-keys',
+    'sort-exports',
+    'testing-library',
+    'jest',
+  ],
   overrides: [
     {
       files: ['**/?(*.)+(spec|test).[jt]s?(x)'],
@@ -137,6 +143,7 @@ module.exports = {
     // 'react/state-in-constructor': 'off',
     // 'react/static-property-placement': 'off',
     // 'spaced-comment': 'off',
+    'sort-exports/sort-exports': ['error', { sortDir: 'asc' }],
     'sort-keys': [
       'error',
       'asc',
