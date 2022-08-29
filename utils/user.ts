@@ -1,4 +1,5 @@
 import { getUser, getUserPlays, getUserShelve } from './bgg-api';
+import { updateStatistics } from './collection';
 import { loadFromFile, saveToFile } from './file';
 
 import { BggUser } from '../types/bgg';
@@ -21,6 +22,8 @@ async function loadUserData(userName: string) {
   const uerCollection = await getUserShelve(userName, true, true);
   userData.plays = userPlays;
   userData.collection = uerCollection;
+  const collectionWithStatistic = await updateStatistics(userData.collection);
+  userData.collection = collectionWithStatistic;
 
   await saveUserData(userName, userData);
   return userData;
