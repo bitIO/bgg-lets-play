@@ -17,12 +17,14 @@ async function loadUserData(userName: string) {
     return cachedData;
   }
 
-  const userData = await getUser(userName);
-  const userPlays = await getUserPlays(userName);
-  const uerCollection = await getUserShelve(userName, true, true);
+  const [userData, userPlays, userCollection] = await Promise.all([
+    await getUser(userName),
+    await getUserPlays(userName),
+    await getUserShelve(userName, true, true),
+  ]);
+  const collectionWithStatistic = await updateStatistics(userCollection);
+
   userData.plays = userPlays;
-  userData.collection = uerCollection;
-  const collectionWithStatistic = await updateStatistics(userData.collection);
   userData.collection = collectionWithStatistic;
 
   await saveUserData(userName, userData);
