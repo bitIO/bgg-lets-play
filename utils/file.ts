@@ -1,10 +1,18 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 
-function saveToFile(fileName: string, data: any, isJson: boolean) {
-  if (isJson) {
-    return writeFileSync(fileName, JSON.stringify(data, null, 2));
+function saveToFile(filePath: string, data: any, isJson: boolean) {
+  const filePathParts = filePath.split('/');
+  filePathParts.pop();
+  if (filePathParts.length > 0) {
+    mkdirSync(filePathParts.join('/'), {
+      recursive: true,
+    });
   }
-  return writeFileSync(fileName, data, null, 2);
+
+  if (isJson) {
+    return writeFileSync(filePath, JSON.stringify(data, null, 2));
+  }
+  return writeFileSync(filePath, data);
 }
 
 function loadFromFile(fileName: string, isJson: boolean) {
