@@ -1,18 +1,27 @@
 {
-  "ignorePaths": ["node_modules"],
+  "ignorePaths": [
+    "node_modules"
+  ],
   "words": [
+    "avatarlink",
+    "battlenetaccount",
     "bgg",
+    "bitio",
     "calle",
     "commitlint",
     "dropzone",
     "embla",
     "fcalle",
     "fcallem",
+    "firstname",
     "francisco",
     "imagemin",
+    "lastlogin",
+    "lastname",
     "linebreak",
     "mantine",
     "markdownlint",
+    "marketrating",
     "modulz",
     "moreno",
     "multilines",
@@ -22,10 +31,19 @@
     "parens",
     "pnpm",
     "postcss",
+    "psnaccount",
+    "stateorprovince",
+    "steamaccount",
     "stylelint",
     "tabler",
+    "termsofuse",
+    "traderating",
     "tsbuildinfo",
     "typecheck",
-    "vercel"
+    "vercel",
+    "webaddress",
+    "wiiaccount",
+    "xboxaccount",
+    "yearregistered"
   ]
 }

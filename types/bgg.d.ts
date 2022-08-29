@@ -23,8 +23,8 @@ export interface BggUser {
   firstName: string;
   id: number;
   lastName: string;
-  plays: BggPlay[];
-  shelve: BggShelve;
+  plays?: BggPlay[];
+  shelve?: BggShelve;
   userName: string;
 }
 
