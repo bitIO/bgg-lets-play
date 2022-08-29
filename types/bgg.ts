@@ -48,7 +48,20 @@ export interface BggPlay {
   id: number;
   length: number;
   location: string;
+  players: BggPlayPlayer[];
   quantity: number;
+}
+
+export interface BggPlayPlayer {
+  color?: string;
+  name?: string;
+  new?: boolean;
+  rating?: string;
+  score?: string;
+  startposition?: string;
+  userid?: number;
+  username?: string;
+  win?: boolean;
 }
 
 export interface BggPlays {

@@ -6,7 +6,13 @@ import {
   getBggUser,
 } from 'bgg-xml-api-client';
 
-import { BggCollection, BggGame, BggPlays, BggUser } from '../types/bgg';
+import {
+  BggCollection,
+  BggGame,
+  BggPlay,
+  BggPlays,
+  BggUser,
+} from '../types/bgg';
 import {
   BggApiResponseDataCollection,
   BggAPIResponseDataGame,
@@ -31,7 +37,7 @@ async function getUser(userName: string): Promise<BggUser> {
   return user;
 }
 
-function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem) {
+function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem): BggPlay {
   return {
     date: new Date(play.date),
     game: {
@@ -45,6 +51,39 @@ function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem) {
     id: parseInt(play.id, 10),
     length: parseInt(play.length, 10),
     location: play.location,
+    players: Array.isArray(play.players.player)
+      ? play.players.player.map((player) => {
+          return {
+            color: player.color,
+            name: player.name,
+            new: player.new ? player.new === '1' : undefined,
+            rating: player.rating,
+            score: player.score,
+            startposition: player.startposition,
+            userid: player.userid ? parseInt(player.userid, 10) : undefined,
+            username: player.username,
+            win: player.win ? player.win === '1' : undefined,
+          };
+        })
+      : [
+          {
+            color: play.players.player.color,
+            name: play.players.player.name,
+            new: play.players.player.new
+              ? play.players.player.new === '1'
+              : undefined,
+            rating: play.players.player.rating,
+            score: play.players.player.score,
+            startposition: play.players.player.startposition,
+            userid: play.players.player.userid
+              ? parseInt(play.players.player.userid, 10)
+              : undefined,
+            username: play.players.player.username,
+            win: play.players.player.win
+              ? play.players.player.win === '1'
+              : undefined,
+          },
+        ],
     quantity: parseInt(play.quantity, 10),
   };
 }

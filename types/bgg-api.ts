@@ -1,4 +1,52 @@
-export interface ValueObject {
+/* eslint-disable sort-exports/sort-exports */
+export interface BggAPIResponseDataGame {
+  item: BggAPIResponseDataGameItem | BggAPIResponseDataGameItem[];
+  termsofuse: string;
+}
+
+export interface BggApiResponseDataCollection {
+  item: BggApiResponseDataCollectionItem[];
+  pubdate: string;
+  termsofuse: string;
+  totalitems: string;
+}
+
+export interface BggAPIResponseDataGameItem {
+  description: string;
+  id: string;
+  image: string;
+  link: BggAPIResponseDataGameItemLink[];
+  maxplayers: ValueObject;
+  maxplaytime: ValueObject;
+  minage: ValueObject;
+  minplayers: ValueObject;
+  minplaytime: ValueObject;
+  name: BggAPIResponseDataGameItemName | BggAPIResponseDataGameItemName[];
+  playingtime: ValueObject;
+  poll: BggAPIResponseDataGameItemPoll[];
+  statistics: BggAPIResponseDataGameStats;
+  thumbnail: string;
+  type: string;
+  yearpublished: ValueObject;
+}
+
+export interface BggApiResponseDataCollectionItem {
+  collid: string;
+  image: string;
+  name: BggApiResponseDataCollectionItemName;
+  numplays: number;
+  objectid: string;
+  objecttype: string;
+  status: BggApiResponseDataCollectionItemStatus;
+  subtype: string;
+  thumbnail: string;
+  yearpublished: number;
+}
+
+export interface BggAPIResponseDataGameItemLink {
+  id: string;
+  inbound?: string;
+  type: string;
   value: string;
 }
 
@@ -23,6 +71,12 @@ export interface BggApiResponseDataUser {
   yearregistered: ValueObject;
 }
 
+export interface BggAPIResponseDataGameItemName {
+  sortindex: string;
+  type: BggAPIResponseDataGameItemNameType;
+  value: string;
+}
+
 export interface BggApiResponseDataUserPlays {
   page: string;
   play: BggApiResponseDataUserPlaysItem[];
@@ -32,6 +86,11 @@ export interface BggApiResponseDataUserPlays {
   username: string;
 }
 
+export enum BggAPIResponseDataGameItemNameType {
+  Alternate = 'alternate',
+  Primary = 'primary',
+}
+
 export interface BggApiResponseDataUserPlaysItem {
   date: string;
   id: string;
@@ -39,110 +98,12 @@ export interface BggApiResponseDataUserPlaysItem {
   item: BggApiResponseDataUserPlaysItemGame;
   length: string;
   location: string;
-  players:
-    | BggApiResponseDataUserPlaysItemPlayer
-    | BggApiResponseDataUserPlaysItemPlayer[];
-  quantity: string;
-}
-
-export interface BggApiResponseDataUserPlaysItemGame {
-  name: string;
-  objectid: string;
-  objecttype: string;
-  subtypes: {
-    subtype: ValueObject;
+  players: {
+    player:
+      | BggApiResponseDataUserPlaysItemPlayer
+      | BggApiResponseDataUserPlaysItemPlayer[];
   };
-}
-
-export interface BggApiResponseDataUserPlaysItemPlayer {
-  color: string;
-  name: string;
-  new: string;
-  rating: string;
-  score: string;
-  startposition: string;
-  userid: string;
-  username: string;
-  win: string;
-}
-
-export interface BggApiResponseDataCollection {
-  item: BggApiResponseDataCollectionItem[];
-  pubdate: string;
-  termsofuse: string;
-  totalitems: string;
-}
-
-export interface BggApiResponseDataCollectionItem {
-  collid: string;
-  image: string;
-  name: BggApiResponseDataCollectionItemName;
-  numplays: number;
-  objectid: string;
-  objecttype: string;
-  status: BggApiResponseDataCollectionItemStatus;
-  subtype: string;
-  thumbnail: string;
-  yearpublished: number;
-}
-
-export interface BggApiResponseDataCollectionItemName {
-  sortindex: string;
-  text: string;
-}
-
-export interface BggApiResponseDataCollectionItemStatus {
-  fortrade: string;
-  lastmodified: string;
-  own: string;
-  preordered: string;
-  prevowned: string;
-  want: string;
-  wanttobuy: string;
-  wanttoplay: string;
-  wishlist: string;
-}
-
-export interface BggAPIResponseDataGame {
-  item: BggAPIResponseDataGameItem | BggAPIResponseDataGameItem[];
-  termsofuse: string;
-}
-
-export interface BggAPIResponseDataGameItem {
-  description: string;
-  id: string;
-  image: string;
-  link: BggAPIResponseDataGameItemLink[];
-  maxplayers: ValueObject;
-  maxplaytime: ValueObject;
-  minage: ValueObject;
-  minplayers: ValueObject;
-  minplaytime: ValueObject;
-  name: BggAPIResponseDataGameItemName | BggAPIResponseDataGameItemName[];
-  playingtime: ValueObject;
-  poll: BggAPIResponseDataGameItemPoll[];
-  statistics: BggAPIResponseDataGameStats;
-  thumbnail: string;
-  type: string;
-  yearpublished: ValueObject;
-}
-
-export interface BggAPIResponseDataGameItemLink {
-  id: string;
-  inbound?: string;
-  type: string;
-  value: string;
-}
-
-export interface BggAPIResponseDataGameItemName {
-  sortindex: string;
-  type: BggAPIResponseDataGameItemNameType;
-  value: string;
-}
-
-export enum BggAPIResponseDataGameItemNameType {
-  Alternate = 'alternate',
-  Primary = 'primary',
+  quantity: string;
 }
 
 export interface BggAPIResponseDataGameItemPoll {
@@ -150,6 +111,10 @@ export interface BggAPIResponseDataGameItemPoll {
   results: BggAPIResponseDataGameItemPollResult;
   title: string;
   totalvotes: string;
+}
+
+export interface ValueObject {
+  value: string;
 }
 
 export interface BggAPIResponseDataGameItemPollResult {
@@ -163,9 +128,30 @@ export interface BggAPIResponseDataGameItemPollResultItem {
   value: string;
 }
 
+export interface BggApiResponseDataUserPlaysItemGame {
+  name: string;
+  objectid: string;
+  objecttype: string;
+  subtypes: {
+    subtype: ValueObject;
+  };
+}
+
 export interface BggAPIResponseDataGameStats {
   page: string;
   ratings: BggAPIResponseDataGameStatsRatings;
+}
+
+export interface BggApiResponseDataUserPlaysItemPlayer {
+  color: string;
+  name: string;
+  new: string;
+  rating: string;
+  score: string;
+  startposition: string;
+  userid: string;
+  username: string;
+  win: string;
 }
 
 export interface BggAPIResponseDataGameStatsRatings {
@@ -184,8 +170,25 @@ export interface BggAPIResponseDataGameStatsRatings {
   wishing: ValueObject;
 }
 
+export interface BggApiResponseDataCollectionItemName {
+  sortindex: string;
+  text: string;
+}
+
 export interface BggAPIResponseDataGameStatsRatingsRanks {
   rank: BggAPIResponseDataGameStatsRatingsRanksItem[];
+}
+
+export interface BggApiResponseDataCollectionItemStatus {
+  fortrade: string;
+  lastmodified: string;
+  own: string;
+  preordered: string;
+  prevowned: string;
+  want: string;
+  wanttobuy: string;
+  wanttoplay: string;
+  wishlist: string;
 }
 
 export interface BggAPIResponseDataGameStatsRatingsRanksItem {
