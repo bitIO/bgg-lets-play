@@ -2,15 +2,19 @@ import {
   BggCollectionParams,
   getBggCollection,
   getBggPlays,
+  getBggThing,
   getBggUser,
 } from 'bgg-xml-api-client';
 
-import { BggPlays, BggShelve, BggUser } from '../types/BGG';
+import { BggGame, BggPlays, BggUser } from '../types/bgg';
 import {
   BggApiResponseDataCollection,
+  BggAPIResponseDataGame,
+  BggAPIResponseDataGameItem,
+  BggAPIResponseDataGameItemNameType,
   BggApiResponseDataUserPlays,
   BggApiResponseDataUserPlaysItem,
-} from '../types/bgg.api';
+} from '../types/bgg-api';
 
 async function getUser(userName: string): Promise<BggUser> {
   const response = await getBggUser({
@@ -128,4 +132,74 @@ async function getUserShelve(
   return shelve;
 }
 
-export { getUserShelve, getUser, getUserPlays };
+async function getGamesInfo(ids: number[]): Promise<BggGame[]> {
+  const response = await getBggThing({
+    id: ids,
+    stats: 1,
+  });
+
+  const data = response.data as BggAPIResponseDataGame;
+
+  if (ids.length === 1) {
+    const item = data.item as BggAPIResponseDataGameItem;
+    const primaryName = Array.isArray(item.name)
+      ? item.name.find((nameItem) => {
+          return nameItem.type === BggAPIResponseDataGameItemNameType.Primary;
+        })
+      : item.name;
+    return [
+      {
+        id: parseInt(item.id, 10),
+        images: {
+          image: item.image,
+          thumbnail: item.thumbnail,
+        },
+        market: {
+          owned: parseInt(item.statistics.ratings.owned.value, 10),
+          trading: parseInt(item.statistics.ratings.trading.value, 10),
+          wanting: parseInt(item.statistics.ratings.wanting.value, 10),
+          whishing: parseInt(item.statistics.ratings.wishing.value, 10),
+        },
+        name: primaryName?.value || 'Primary name not found',
+        publishedYear: parseInt(item.yearpublished.value, 10),
+        stats: {
+          comments: parseInt(item.statistics.ratings.numcomments.value, 10),
+          rating: parseFloat(item.statistics.ratings.average.value),
+          weight: parseFloat(item.statistics.ratings.averageweight.value),
+        },
+      },
+    ];
+  }
+
+  const gamesInfo: BggGame[] = [];
+  (data.item as BggAPIResponseDataGameItem[]).forEach((item) => {
+    const primaryName = Array.isArray(item.name)
+      ? item.name.find((nameItem) => {
+          return nameItem.type === BggAPIResponseDataGameItemNameType.Primary;
+        })
+      : item.name;
+    gamesInfo.push({
+      id: parseInt(item.id, 10),
+      images: {
+        image: item.image,
+        thumbnail: item.thumbnail,
+      },
+      market: {
+        owned: parseInt(item.statistics.ratings.owned.value, 10),
+        trading: parseInt(item.statistics.ratings.trading.value, 10),
+        wanting: parseInt(item.statistics.ratings.wanting.value, 10),
+        whishing: parseInt(item.statistics.ratings.wishing.value, 10),
+      },
+      name: primaryName?.value || 'Primary name not found',
+      publishedYear: parseInt(item.yearpublished.value, 10),
+      stats: {
+        comments: parseInt(item.statistics.ratings.numcomments.value, 10),
+        rating: parseFloat(item.statistics.ratings.average.value),
+        weight: parseFloat(item.statistics.ratings.averageweight.value),
+      },
+    });
+  });
+  return gamesInfo;
+}
+
+export { getGamesInfo, getUserShelve, getUser, getUserPlays };
