@@ -1,20 +1,15 @@
 {
-  "ignorePaths": [
-    "node_modules"
-  ],
+  "ignorePaths": ["node_modules"],
   "words": [
-    "Autosize",
+    "bgg",
     "calle",
-    "camelcase",
     "commitlint",
     "dropzone",
     "embla",
     "fcalle",
     "fcallem",
     "francisco",
-    "Greycliff",
     "imagemin",
-    "incollection",
     "linebreak",
     "mantine",
     "markdownlint",
@@ -27,9 +22,7 @@
     "parens",
     "pnpm",
     "postcss",
-    "raindrop",
     "stylelint",
-    "swr",
     "tabler",
     "tsbuildinfo",
     "typecheck",
