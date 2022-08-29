@@ -41,9 +41,6 @@ function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem) {
         thumbnail: '',
       },
       name: play.item.name,
-      plays: -1,
-      publishedYear: -1,
-      rating: -1,
     },
     id: parseInt(play.id, 10),
     length: parseInt(play.length, 10),
@@ -122,7 +119,6 @@ async function getUserShelve(
         name: item.name.text,
         plays: item.numplays,
         publishedYear: item.yearpublished,
-        rating: -1,
       };
     }),
     publicationDate: new Date(data.pubdate),
@@ -202,4 +198,4 @@ async function getGamesInfo(ids: number[]): Promise<BggGame[]> {
   return gamesInfo;
 }
 
-export { getGamesInfo, getUserShelve, getUser, getUserPlays };
+export { getGamesInfo, getUser, getUserPlays, getUserShelve };

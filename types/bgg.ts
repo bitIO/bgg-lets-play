@@ -10,14 +10,13 @@ export interface BggGame {
   market?: BggGameMarket;
   name: string;
   plays?: number;
-  publishedYear: number;
+  publishedYear?: number;
   stats?: BggGameStats;
 }
 
-export interface BggGameStats {
-  comments: number;
-  rating: number;
-  weight: number;
+export interface BggGameImage {
+  image: string;
+  thumbnail: string;
 }
 
 export interface BggGameMarket {
@@ -27,24 +26,20 @@ export interface BggGameMarket {
   whishing: number;
 }
 
-export interface BggGameImage {
-  image: string;
-  thumbnail: string;
+export interface BggGameStats {
+  comments: number;
+  rating: number;
+  weight: number;
 }
 
-export interface BggUser {
-  avatar?: string;
-  collection?: BggCollection;
-  firstName: string;
-  id: number;
-  lastName: string;
-  plays?: BggPlays;
+export interface BggGameToBePlayed {
+  game: BggGame;
+  plays: BggGameToBePlayedItem[];
+}
+
+export interface BggGameToBePlayedItem {
+  plays: number;
   userName: string;
-}
-
-export interface BggPlays {
-  plays: BggPlay[];
-  total: number;
 }
 
 export interface BggPlay {
@@ -56,12 +51,17 @@ export interface BggPlay {
   quantity: number;
 }
 
-export interface BggGameToBePlayed {
-  game: BggGame;
-  plays: BggGameToBePlayedItem[];
+export interface BggPlays {
+  plays: BggPlay[];
+  total: number;
 }
 
-export interface BggGameToBePlayedItem {
-  plays: number;
+export interface BggUser {
+  avatar?: string;
+  collection?: BggCollection;
+  firstName: string;
+  id: number;
+  lastName: string;
+  plays?: BggPlays;
   userName: string;
 }
