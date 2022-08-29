@@ -6,13 +6,7 @@ import {
   getBggUser,
 } from 'bgg-xml-api-client';
 
-import {
-  BggCollection,
-  BggGame,
-  BggPlay,
-  BggPlays,
-  BggUser,
-} from '../types/bgg';
+import { BggCollection, BggGame, BggPlay, BggUser } from '../types/bgg';
 import {
   BggApiResponseDataCollection,
   BggAPIResponseDataGame,
@@ -87,23 +81,20 @@ function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem): BggPlay {
     quantity: parseInt(play.quantity, 10),
   };
 }
-async function getUserPlays(userName: string): Promise<BggPlays> {
+async function getUserPlays(userName: string): Promise<BggPlay[]> {
   const response = await getBggPlays({
     page: 1,
     username: userName,
   });
 
-  const data: BggPlays = {
-    plays: [],
-    total: -1,
-  };
+  const data: BggPlay[] = [];
   const responseData = response.data as BggApiResponseDataUserPlays;
-  data.total = parseInt(responseData.total, 10);
   responseData.play.forEach((play) => {
-    data.plays.push(parseUserPlayItem(play));
+    data.push(parseUserPlayItem(play));
   });
-  if (data.total - 100 > 0) {
-    const remainingPages = Math.ceil((data.total - 100) / 100);
+  const total = parseInt(responseData.total, 10);
+  if (total - 100 > 0) {
+    const remainingPages = Math.ceil((total - 100) / 100);
     const promises = [];
     for (let index = 0; index < remainingPages; index += 1) {
       promises.push(
@@ -117,7 +108,7 @@ async function getUserPlays(userName: string): Promise<BggPlays> {
     remainingPagesResponseData.forEach((pageResponseData) => {
       (pageResponseData.data as BggApiResponseDataUserPlays).play.forEach(
         (play) => {
-          data.plays.push(parseUserPlayItem(play));
+          data.push(parseUserPlayItem(play));
         },
       );
     });
