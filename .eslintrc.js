@@ -84,7 +84,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['react'],
       },
     ],
-    // 'import/prefer-default-export': 'off',
+    'import/prefer-default-export': 'off',
     // 'jsx-a11y/anchor-is-valid': 'off',
     // 'jsx-a11y/control-has-associated-label': 'off',
     // 'jsx-a11y/label-has-for': 'off',
