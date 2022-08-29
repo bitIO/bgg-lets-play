@@ -34,11 +34,11 @@ export interface BggGameImage {
 
 export interface BggUser {
   avatar?: string;
+  collection?: BggCollection;
   firstName: string;
   id: number;
   lastName: string;
   plays?: BggPlays;
-  shelve?: BggShelve;
   userName: string;
 }
 

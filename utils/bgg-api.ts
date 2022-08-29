@@ -6,7 +6,7 @@ import {
   getBggUser,
 } from 'bgg-xml-api-client';
 
-import { BggGame, BggPlays, BggUser } from '../types/bgg';
+import { BggCollection, BggGame, BggPlays, BggUser } from '../types/bgg';
 import {
   BggApiResponseDataCollection,
   BggAPIResponseDataGame,
@@ -94,7 +94,7 @@ async function getUserShelve(
   username: string,
   owned: boolean,
   excludeExpansions: boolean,
-): Promise<BggShelve> {
+): Promise<BggCollection> {
   const params: BggCollectionParams = {
     subtype: 'boardgame',
     username,
@@ -111,7 +111,7 @@ async function getUserShelve(
 
   const response = await getBggCollection(params);
   const data = response.data as BggApiResponseDataCollection;
-  const shelve: BggShelve = {
+  const collection: BggCollection = {
     games: data.item.map((item) => {
       return {
         id: parseInt(item.objectid, 10),
@@ -129,7 +129,7 @@ async function getUserShelve(
     totalItems: parseInt(data.totalitems, 10),
   };
 
-  return shelve;
+  return collection;
 }
 
 async function getGamesInfo(ids: number[]): Promise<BggGame[]> {
