@@ -23,9 +23,14 @@ export interface BggUser {
   firstName: string;
   id: number;
   lastName: string;
-  plays?: BggPlay[];
+  plays?: BggPlays;
   shelve?: BggShelve;
   userName: string;
+}
+
+export interface BggPlays {
+  plays: BggPlay[];
+  total: number;
 }
 
 export interface BggPlay {
