@@ -1,3 +1,5 @@
 import { createStyles } from '@mantine/core';
 
-export default createStyles(() => ({}));
+export default createStyles(() => {
+  return {};
+});
