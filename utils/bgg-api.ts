@@ -5,6 +5,7 @@ import {
   getBggThing,
   getBggUser,
 } from 'bgg-xml-api-client';
+import * as he from 'he';
 
 import { BggCollection, BggGame, BggPlay, BggUser } from '../types/bgg';
 import {
@@ -17,9 +18,7 @@ import {
 } from '../types/bgg-api';
 
 async function getUser(userName: string): Promise<BggUser> {
-  const response = await getBggUser({
-    name: userName,
-  });
+  const response = await getBggUser({ name: userName });
   const { data } = response;
   const user: BggUser = {
     avatar: data.avatarlink.value,
@@ -40,7 +39,7 @@ function parseUserPlayItem(play: BggApiResponseDataUserPlaysItem): BggPlay {
         image: '',
         thumbnail: '',
       },
-      name: play.item.name,
+      name: he.decode(play.item.name),
     },
     id: parseInt(play.id, 10),
     length: parseInt(play.length, 10),
@@ -146,7 +145,7 @@ async function getUserShelve(
           image: item.image,
           thumbnail: item.thumbnail,
         },
-        name: item.name.text,
+        name: he.decode(item.name.text),
         plays: item.numplays,
         publishedYear: item.yearpublished,
       };
