@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   if (query.users) {
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/collection/diff?users=${query.users}&sortBy=rating`,
+        `${process.env.VERCEL_URL}/api/collection/diff?users=${query.users}&sortBy=rating`,
       );
       notPlayedGames = (await response.json()) as NotPlayedGames[];
     } catch (error) {
