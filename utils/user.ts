@@ -1,18 +1,17 @@
 import { getUser, getUserPlays, getUserShelve } from './bgg-api';
 import { updateStatistics } from './collection';
-import { loadFromFile, saveToFile } from './file';
 
+import { getDatabase } from '../database';
 import { BggUser } from '../types/bgg';
 
-async function saveUserData(userName: string, userData: BggUser) {
-  const userDataPath = `./data/${userName}.json`;
-  saveToFile(userDataPath, userData, true);
+const database = getDatabase();
+
+async function saveUserData(userData: BggUser) {
+  database.saveUser(userData);
 }
 
 async function loadUserData(userName: string): Promise<BggUser> {
-  const userDataPath = `./data/${userName}.json`;
-
-  const cachedData = loadFromFile(userDataPath, true);
+  const cachedData = database.loadUser(userName);
   if (cachedData) {
     return cachedData;
   }
@@ -27,7 +26,7 @@ async function loadUserData(userName: string): Promise<BggUser> {
   userData.plays = userPlays;
   userData.collection = collectionWithStatistic;
 
-  await saveUserData(userName, userData);
+  await saveUserData(userData);
   return userData;
 }
 
