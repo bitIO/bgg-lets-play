@@ -73,3 +73,13 @@ export interface BggUser {
   plays?: BggPlay[];
   userName: string;
 }
+
+export interface NotPlayedGames {
+  game: BggGame;
+  playsByUser: NotPlayedGamesItemPlays[];
+}
+
+export interface NotPlayedGamesItemPlays {
+  plays: BggPlay[];
+  userName: string;
+}
