@@ -1,16 +1,70 @@
+import { useState } from 'react';
+
 import { Button, Container, Group, SimpleGrid, TextInput } from '@mantine/core';
+import { IconDice, IconShoppingCart } from '@tabler/icons';
+import Link from 'next/link';
 
 export function UsersSelector() {
+  const [userName, setUserName] = useState<string[]>([]);
   return (
     <Container>
-      <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-        <TextInput label="User A" placeholder="bgg user name" />
-        <TextInput label="User B" placeholder="bgg user name" />
+      <SimpleGrid
+        breakpoints={[
+          {
+            cols: 1,
+            maxWidth: 'sm',
+          },
+        ]}
+        cols={2}
+      >
+        <TextInput
+          label="User A"
+          onChange={(event) => {
+            setUserName([
+              event.currentTarget.value.toLocaleLowerCase(),
+              userName[1],
+            ]);
+          }}
+          placeholder="bgg user name"
+          value={userName[0]}
+        />
+        <TextInput
+          label="User B"
+          onChange={(event) => {
+            setUserName([
+              userName[0],
+              event.currentTarget.value.toLocaleLowerCase(),
+            ]);
+          }}
+          placeholder="bgg user name"
+          value={userName[1]}
+        />
       </SimpleGrid>
-      <Group position="right" mt="md">
-        <Button type="submit" className={classes.control}>
-          Send message
+      <Group mt="md" position="right">
+        <Button
+          gradient={{
+            from: 'orange',
+            to: 'red',
+          }}
+          leftIcon={<IconShoppingCart />}
+          type="submit"
+          variant="gradient"
+        >
+          What should I buy?
         </Button>
+        <Link href={`/should-play?users=${userName.join(',')}`}>
+          <Button
+            gradient={{
+              from: 'indigo',
+              to: 'cyan',
+            }}
+            leftIcon={<IconDice />}
+            type="submit"
+            variant="gradient"
+          >
+            What should we play?
+          </Button>
+        </Link>
       </Group>
     </Container>
   );
