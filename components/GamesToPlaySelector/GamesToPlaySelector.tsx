@@ -8,7 +8,6 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 
 import { GameItem } from './GameItem';
-import useStyles from './GamesToPlaySelector.styles';
 
 import { Game, ShouldPlay } from '../../types';
 
@@ -47,11 +46,10 @@ function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
   const initialData = buildInitialData(gamesToPlay);
   const [data, setData] = useState<TransferListData>([initialData, []]);
   const isMobile = useMediaQuery('(max-width: 900px)');
-  const { classes } = useStyles();
+
   return (
     <TransferList
       breakpoint="sm"
-      className={classes.container}
       filter={(query, item) => {
         return (
           item.label.toLowerCase().includes(query.toLowerCase().trim()) ||

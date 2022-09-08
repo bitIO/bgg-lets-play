@@ -4,12 +4,14 @@ import {
   Center,
   Highlight,
   ScrollArea,
+  SimpleGrid,
   Table,
   Text,
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconInfoCircle } from '@tabler/icons';
+import { formatDistance } from 'date-fns';
 
 import useStyles from './GamePlaysTable.styles';
 
@@ -21,7 +23,16 @@ interface GamePlaysTableProps {
 
 function formatDateString(dateString: string) {
   const date = new Date(dateString);
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`;
+  return (
+    <SimpleGrid cols={1}>
+      <Text align="center" size="sm">
+        {formatDistance(date, new Date())}
+      </Text>
+      <Text align="center" color="dimmed" size="sm">
+        {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
+      </Text>
+    </SimpleGrid>
+  );
 }
 
 function GamePlaysTable({ users }: GamePlaysTableProps) {
@@ -37,15 +48,6 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
     return <div>Cannot find game plays</div>;
   }
 
-  if (isMobile) {
-    return (
-      <Center inline>
-        <IconInfoCircle />
-        <Text>Plays view not available in mobile</Text>
-      </Center>
-    );
-  }
-
   const rows = gamesToPlayState.selectedGamePlays.map((play) => {
     return (
       <tr key={play.id}>
@@ -58,7 +60,7 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
             })
             .join(', ')}
         </td>
-        <td>
+        <td data-mobile>
           <Highlight highlight={users}>
             {play.players
               .filter((player) => {
@@ -76,6 +78,14 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
 
   return (
     <>
+      {isMobile && (
+        <Center inline>
+          <IconInfoCircle />
+          <Text color="dimmed" size="sm">
+            &nbsp;BGG user not shown in mobile
+          </Text>
+        </Center>
+      )}
       <Title order={3}>Game Plays</Title>
       <ScrollArea
         onScrollPositionChange={({ y }) => {
@@ -85,11 +95,7 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
           height: 300,
         }}
       >
-        <Table
-          sx={{
-            minWidth: 700,
-          }}
-        >
+        <Table className={classes.table} highlightOnHover>
           <thead
             className={cx(classes.header, {
               [classes.scrolled]: scrolled,
@@ -99,7 +105,7 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
               <th>Date</th>
               <th>Location</th>
               <th>Players</th>
-              <th>Bgg users</th>
+              <th data-mobile>Bgg users</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
