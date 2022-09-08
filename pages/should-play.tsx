@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Center, Container, Grid, Notification } from '@mantine/core';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
@@ -28,7 +26,6 @@ function validateResponse(data: ShouldPlay[]) {
 }
 
 export default function ShouldPlayPage() {
-  const [isSlow, setIsSlow] = useState<boolean>(false);
   const router = useRouter();
   const users = Array.isArray(router.query.users)
     ? router.query.users
@@ -43,7 +40,6 @@ export default function ShouldPlayPage() {
           config,
           key,
         });
-        setIsSlow(true);
       },
       refreshInterval: 0,
       revalidateIfStale: false,
