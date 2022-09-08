@@ -51,10 +51,7 @@ function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
     <TransferList
       breakpoint="sm"
       filter={(query, item) => {
-        return (
-          item.label.toLowerCase().includes(query.toLowerCase().trim()) ||
-          item.description.toLowerCase().includes(query.toLowerCase().trim())
-        );
+        return item.label.toLowerCase().includes(query.toLowerCase().trim());
       }}
       itemComponent={GameItem}
       listHeight={isMobile ? 70 : 300}
