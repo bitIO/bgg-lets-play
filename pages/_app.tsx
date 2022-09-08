@@ -31,7 +31,7 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Mantine next example</title>
+        <title>BGG - Let&acute;s play</title>
         <meta
           content="minimum-scale=1, initial-scale=1, width=device-width"
           name="viewport"
