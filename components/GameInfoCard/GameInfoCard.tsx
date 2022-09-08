@@ -55,8 +55,6 @@ function GameInfoCard() {
 
   const { id, info, images, name, stats } = gamesToPlayState.selectedGameInfo;
 
-  console.log(gamesToPlayState.selectedGamePlays);
-
   return (
     <>
       <Title order={3}>Game Info</Title>
