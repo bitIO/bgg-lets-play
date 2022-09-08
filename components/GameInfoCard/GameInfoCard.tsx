@@ -87,7 +87,7 @@ function GameInfoCard() {
           {buildStatsBlock(stats)}
         </Group>
         <Link
-          href={`https://boardgamegeek.com/boardgame/291457/${id}`}
+          href={`https://boardgamegeek.com/boardgame/${id}`}
           target="_blank"
         >
           <Button
