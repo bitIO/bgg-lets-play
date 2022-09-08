@@ -1,7 +1,8 @@
-import { Container, Grid } from '@mantine/core';
+import { Center, Container, Grid, Notification } from '@mantine/core';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
+import Error500 from '../components/Error500/Error500';
 import GameInfoCard from '../components/GameInfoCard/GameInfoCard';
 import GamePlaysTable from '../components/GamePlaysTable/GamePlaysTable';
 import { GamesToPlayProvider } from '../components/GamesToPlayContext/GamesToPlayContext';
@@ -33,7 +34,13 @@ export default function ShouldPlayPage() {
     `/api/anxiety/${users[0]}/vs/${users[1]}`,
     fetcherSimple,
     {
-      loadingTimeout: 25 * 1000,
+      loadingTimeout: 45 * 1000,
+      onLoadingSlow(key, config) {
+        console.log('Slow connection', {
+          config,
+          key,
+        });
+      },
       refreshInterval: 0,
       revalidateIfStale: false,
       revalidateOnFocus: false,
@@ -41,12 +48,27 @@ export default function ShouldPlayPage() {
   );
 
   if (isValidating) {
-    return <div>Loading ...</div>;
+    return (
+      <Center
+        style={{
+          height: '100vh',
+          width: '100vw',
+        }}
+      >
+        <Notification
+          disallowClose
+          loading
+          title="Downloading data from the server"
+        >
+          Please wait until data is download.
+        </Notification>
+      </Center>
+    );
   }
 
   if (error) {
     console.log(error);
-    return <div>Error ...</div>;
+    return <Error500 error={error} />;
   }
 
   if (data) {

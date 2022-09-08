@@ -26,6 +26,14 @@ const useStyles = createStyles((theme) => {
     scrolled: {
       boxShadow: theme.shadows.sm,
     },
+
+    table: {
+      [theme.fn.smallerThan('sm')]: {
+        '& [data-mobile]': {
+          display: 'none',
+        },
+      },
+    },
   };
 });
 

@@ -40,8 +40,9 @@ export function UsersSelector() {
           value={userName[1]}
         />
       </SimpleGrid>
-      <Group mt="md" position="right">
+      <Group mt="md" position="center">
         <Button
+          disabled
           gradient={{
             from: 'orange',
             to: 'red',
@@ -54,6 +55,7 @@ export function UsersSelector() {
         </Button>
         <Link href={`/should-play?users=${userName.join(',')}`}>
           <Button
+            disabled={userName.length !== 2}
             gradient={{
               from: 'indigo',
               to: 'cyan',

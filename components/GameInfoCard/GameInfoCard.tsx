@@ -55,8 +55,6 @@ function GameInfoCard() {
 
   const { id, info, images, name, stats } = gamesToPlayState.selectedGameInfo;
 
-  console.log(gamesToPlayState.selectedGamePlays);
-
   return (
     <>
       <Title order={3}>Game Info</Title>
@@ -87,7 +85,7 @@ function GameInfoCard() {
           {buildStatsBlock(stats)}
         </Group>
         <Link
-          href={`https://boardgamegeek.com/boardgame/291457/${id}`}
+          href={`https://boardgamegeek.com/boardgame/${id}`}
           target="_blank"
         >
           <Button
