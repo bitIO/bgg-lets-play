@@ -7,11 +7,25 @@ import {
   TransferListItemComponentProps,
 } from '@mantine/core';
 
+import { useGamesToPlay } from '../GamesToPlayContext/GamesToPlayContext';
+
 function GameItem(props: TransferListItemComponentProps) {
   const { data, selected } = props;
+  const { gamesToPlayDispatch } = useGamesToPlay();
+
   return (
-    <Group noWrap>
-      <Avatar radius="xl" size="lg" src={data.images.thumbnail} />
+    <Group
+      noWrap
+      onMouseOut={() => {
+        gamesToPlayDispatch({
+          payload: {
+            id: data.value,
+          },
+          type: 'setSelectedGameId',
+        });
+      }}
+    >
+      <Avatar radius="xl" size="lg" src={data.image} />
       <div
         style={{
           flex: 1,
@@ -22,7 +36,7 @@ function GameItem(props: TransferListItemComponentProps) {
         </Text>
         <Text color="dimmed" size="xs" weight={400}>
           <Badge color="dark" size="xs" variant="outline">
-            Rating: {data.stats.rating.toFixed(2)}
+            Rating: {data.rating}
           </Badge>
         </Text>
       </div>
