@@ -33,7 +33,9 @@ export default function ShouldPlayPage() {
     `/api/anxiety/${users[0]}/vs/${users[1]}`,
     fetcherSimple,
     {
+      loadingTimeout: 25 * 1000,
       refreshInterval: 0,
+      revalidateIfStale: false,
       revalidateOnFocus: false,
     },
   );

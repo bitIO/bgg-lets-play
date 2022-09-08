@@ -5,8 +5,10 @@ import {
   TransferListData,
   TransferListItem,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 import { GameItem } from './GameItem';
+import useStyles from './GamesToPlaySelector.styles';
 
 import { Game, ShouldPlay } from '../../types';
 
@@ -18,8 +20,8 @@ function getGameRating(game: Game) {
   return game.stats.rating.average || 0;
 }
 
-function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
-  const initialData = gamesToPlay
+function buildInitialData(gamesToPlay: ShouldPlay[]) {
+  return gamesToPlay
     ? gamesToPlay
         .sort((a, b) => {
           if (getGameRating(a.game) < getGameRating(b.game)) {
@@ -39,11 +41,17 @@ function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
           };
         })
     : [];
-  const [data, setData] = useState<TransferListData>([initialData, []]);
+}
 
+function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
+  const initialData = buildInitialData(gamesToPlay);
+  const [data, setData] = useState<TransferListData>([initialData, []]);
+  const isMobile = useMediaQuery('(max-width: 900px)');
+  const { classes } = useStyles();
   return (
     <TransferList
       breakpoint="sm"
+      className={classes.container}
       filter={(query, item) => {
         return (
           item.label.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -51,7 +59,7 @@ function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
         );
       }}
       itemComponent={GameItem}
-      listHeight={300}
+      listHeight={isMobile ? 70 : 300}
       nothingFound="Nothing here"
       onChange={setData}
       searchPlaceholder="Search game..."
