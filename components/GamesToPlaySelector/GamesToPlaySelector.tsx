@@ -8,24 +8,36 @@ import {
 
 import { GameItem } from './GameItem';
 
-import { NotPlayedGames } from '../../types/bgg';
+import { Game, ShouldPlay } from '../../types';
 
 interface GamesToPlaySelectorProps {
-  gamesToPlay: NotPlayedGames[];
+  gamesToPlay: ShouldPlay[];
 }
 
-function GamesToPlaySelector(props: GamesToPlaySelectorProps) {
-  const { gamesToPlay } = props;
+function getGameRating(game: Game) {
+  return game.stats.rating.average || 0;
+}
+
+function GamesToPlaySelector({ gamesToPlay }: GamesToPlaySelectorProps) {
   const initialData = gamesToPlay
-    ? gamesToPlay.map((entry): TransferListItem => {
-        return {
-          images: entry.game.images,
-          label: entry.game.name,
-          market: entry.game.market,
-          stats: entry.game.stats,
-          value: `${entry.game.id}`,
-        };
-      })
+    ? gamesToPlay
+        .sort((a, b) => {
+          if (getGameRating(a.game) < getGameRating(b.game)) {
+            return 1;
+          }
+          if (getGameRating(a.game) > getGameRating(b.game)) {
+            return -1;
+          }
+          return 0;
+        })
+        .map((entry): TransferListItem => {
+          return {
+            image: entry.game.images.thumbnail,
+            label: entry.game.name,
+            rating: entry.game.stats.rating.average?.toFixed(2),
+            value: `${entry.game.id}`,
+          };
+        })
     : [];
   const [data, setData] = useState<TransferListData>([initialData, []]);
 

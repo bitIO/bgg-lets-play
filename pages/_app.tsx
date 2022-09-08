@@ -10,6 +10,9 @@ import { getCookie, setCookie } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SWRConfig } from 'swr';
+
+import { swrMemoryProvider } from '../utils';
 
 function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps, colorScheme } = props;
@@ -48,7 +51,15 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
           withNormalizeCSS
         >
           <NotificationsProvider>
-            <Component {...pageProps} />
+            <SWRConfig
+              value={{
+                provider: swrMemoryProvider,
+                refreshInterval: 1000 * 1,
+                shouldRetryOnError: false,
+              }}
+            >
+              <Component {...pageProps} />
+            </SWRConfig>
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

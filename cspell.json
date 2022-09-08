@@ -1,7 +1,5 @@
 {
-  "ignorePaths": [
-    "node_modules"
-  ],
+  "ignorePaths": ["node_modules"],
   "words": [
     "avatarlink",
     "averageweight",
@@ -15,6 +13,7 @@
     "camelcase",
     "collid",
     "commitlint",
+    "ddd",
     "dropzone",
     "embla",
     "excludesubtype",
