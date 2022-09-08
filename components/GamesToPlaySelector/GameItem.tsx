@@ -16,7 +16,23 @@ function GameItem(props: TransferListItemComponentProps) {
   return (
     <Group
       noWrap
-      onMouseOut={() => {
+      onMouseEnter={() => {
+        gamesToPlayDispatch({
+          payload: {
+            id: data.value,
+          },
+          type: 'setSelectedGameId',
+        });
+      }}
+      onTouchMove={() => {
+        gamesToPlayDispatch({
+          payload: {
+            id: data.value,
+          },
+          type: 'setSelectedGameId',
+        });
+      }}
+      onTouchStart={() => {
         gamesToPlayDispatch({
           payload: {
             id: data.value,

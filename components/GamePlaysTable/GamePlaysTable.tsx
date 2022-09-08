@@ -1,6 +1,15 @@
 import { useState } from 'react';
 
-import { Highlight, ScrollArea, Table, Title } from '@mantine/core';
+import {
+  Center,
+  Highlight,
+  ScrollArea,
+  Table,
+  Text,
+  Title,
+} from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconInfoCircle } from '@tabler/icons';
 
 import useStyles from './GamePlaysTable.styles';
 
@@ -10,10 +19,16 @@ interface GamePlaysTableProps {
   users: string[];
 }
 
+function formatDateString(dateString: string) {
+  const date = new Date(dateString);
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`;
+}
+
 function GamePlaysTable({ users }: GamePlaysTableProps) {
   const { classes, cx } = useStyles();
   const [scrolled, setScrolled] = useState(false);
   const { gamesToPlayState } = useGamesToPlay();
+  const isMobile = useMediaQuery('(max-width: 900px)');
 
   if (!gamesToPlayState.selectedGameId) {
     return null;
@@ -22,11 +37,19 @@ function GamePlaysTable({ users }: GamePlaysTableProps) {
     return <div>Cannot find game plays</div>;
   }
 
+  if (isMobile) {
+    return (
+      <Center inline>
+        <IconInfoCircle />
+        <Text>Plays view not available in mobile</Text>
+      </Center>
+    );
+  }
+
   const rows = gamesToPlayState.selectedGamePlays.map((play) => {
-    console.log('play :>> ', play);
     return (
       <tr key={play.id}>
-        <td>{play.date}</td>
+        <td>{formatDateString(play.date)}</td>
         <td>{play.location}</td>
         <td>
           {play.players
