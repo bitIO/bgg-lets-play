@@ -10,8 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination:
-          'https://160hxt8651.execute-api.eu-west-1.amazonaws.com/dev/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/:path*`,
       },
     ];
   },
